@@ -51,5 +51,5 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ${{ github.workspace }}/frida/frida-inject.tar
-        asset_name: frida-inject.tar.tar
+        asset_name: frida-inject.tar
         asset_content_type: application/tar
