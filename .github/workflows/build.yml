@@ -22,9 +22,9 @@ jobs:
         cd frida
         make core-linux-x86_64
         mkdir -p frida-assets/debug
-        find . -name frida-inject -exec file {} \+ | grep -v 'not stripped' | head -n 1 | cut -d ':' -f 1 | xargs cp -t frida-assets
-        find . -name frida-gadget.so -exec file {} \+ | grep -v 'not stripped' | head -n 1 | cut -d ':' -f 1 | xargs cp -t frida-assets
-        find . -name frida-gadget.so -exec file {} \+ | grep 'not stripped' | head -n 1 | cut -d ':' -f 1 | xargs cp -t frida-assets/debug
+        find . -name frida-inject -exec file {} \+ | grep -v 'not stripped' | head -n 1 | cut -d ':' -f 1 | xargs -r -- cp -t frida-assets
+        find . -name frida-gadget.so -exec file {} \+ | grep -v 'not stripped' | head -n 1 | cut -d ':' -f 1 | xargs -r -- cp -t frida-assets
+        find . -name *frida-gadget.so -exec file {} \+ | grep 'not stripped' | head -n 1 | cut -d ':' -f 1 | xargs -r -- cp -t frida-assets/debug
         tar czf frida-assets.tgz frida-assets
       
     - name: Create Release
@@ -36,9 +36,9 @@ jobs:
         tag_name: v0.2
         release_name: Release v0.2
         body: |
-          Keeping only the following bins
-          * frida-inject as this isn't on the download page
-          * frida-gadget.so
+          Keeping only the following bins as they aren't on the download page
+          * frida-inject 
+          * frida-gadget.so with debug symbols
         draft: false
         prerelease: false
     - name: Upload Release Asset
